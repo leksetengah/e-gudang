@@ -5,6 +5,7 @@ namespace App\Livewire\Superadmin\User;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\support\Facades\Hash;
 
 class Index extends Component
 {
@@ -58,5 +59,16 @@ class Index extends Component
         'password.confirmed'             => 'password konfirmasi tidak sama!',
         'password_confirmation.required' => 'password konfirmasi tidak boleh kosong!',
     ]);
+
+    $user = new User;
+    $user->name = $this->nama;
+    // $user->name(name = field di database) = $this->nama (nama = wire:model="nama");
+    $user->name = $this->nama;
+    $user->email = $this->email;
+    $user->role = $this->role;
+    $user->password = Hash::make($this->password);
+    $user->save();
+
+    $this->dispatch('closeCreateModal');
     }
 }

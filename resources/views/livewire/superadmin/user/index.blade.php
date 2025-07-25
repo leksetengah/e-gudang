@@ -116,6 +116,21 @@
     {{--  Create Modal --}}
     @include('livewire.superadmin.user.create')
     <!-- /.content -->
+
+    {{--  Close Modal --}}
+    @script
+        <script>
+            $wire.on('closeCreateModal', () => {
+                $('#createModalUser').modal('hide');
+                // createModalUser = modal id
+                Swal.fire({
+                title: "Berhasil!",
+                text: "User berhasil ditambahkan!",
+                icon: "success"
+                });
+            });
+        </script>
+    @endscript
   </div>
 </div>
 

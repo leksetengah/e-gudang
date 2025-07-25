@@ -39,8 +39,8 @@
 
         <div class="row mt-2">
             <label for="role" class="form-label">Role</label>
-            <select id="role wire:model="role" class="form-control @error('role') is-invalid @enderror">
-                <option selected disabled>- Pilih Role -</option>
+            <select id="role" wire:model="role" class="form-control @error('role') is-invalid @enderror">
+                <option selected>- Pilih Role -</option>
                 <option value="Super Admin">Super Admin</option>
                 <option value="Admin">Admin</option>
             </select>
