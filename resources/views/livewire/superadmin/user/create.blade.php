@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div wire:ignore.self class="modal fade" id="createModalUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
@@ -12,55 +12,69 @@
         </button>
       </div>
       <div class="modal-body">
+
         <div class="row">
-            <div class="col-3 mb-3">
-                <label for="nama" class="form-label">Nama</label>
-            </div>
-            <div class="col-9">
-                <input wire:model="nama" type="text" class="form-control" placeholder="masukkan nama">
-            </div>
+            <label for="nama" class="form-label">Nama</label>
+            <input wire:model="nama" type="text"
+                class="form-control @error('nama') is-invalid @enderror"
+                placeholder="Masukkan Nama">
             @error('nama')
             <small class="text-danger">
                 {{ $message }}
             </small>
             @enderror
+        </div>
 
-            <div class="col-3 mb-3">
-                <label for="email" class="form-label">Email</label>
-            </div>
-            <div class="col-9">
-                <input wire:model="email" type="email" class="form-control" placeholder="masukkan email">
-            </div>
+        <div class="row mt-2">
+            <label for="email" class="form-label">Email</label>
+            <input wire:model="email" type="email" autocomplete="off"
+                class="form-control @error('email') is-invalid @enderror"
+                placeholder="Masukkan Email">
             @error('email')
             <small class="text-danger">
                 {{ $message }}
             </small>
             @enderror
+        </div>
 
-            <div class="col-3 mb-3">
-                <label for="role" class="form-label">Role</label>
-            </div>
-            <div class="col-9">
-                <select id="role" class="form-control" wire:model="role" @error('role') is_invalid @enderror>
-                    <option selected disabled>- Select Role -</option>
-                    <option value="Super Admin">Super Admin</option>
-                    <option value="Admin">Admin</option>
-                </select>
-            </div>
+        <div class="row mt-2">
+            <label for="role" class="form-label">Role</label>
+            <select id="role wire:model="role" class="form-control @error('role') is-invalid @enderror">
+                <option selected disabled>- Pilih Role -</option>
+                <option value="Super Admin">Super Admin</option>
+                <option value="Admin">Admin</option>
+            </select>
+            @error('role')
+            <small class="text-danger">
+                {{ $message }}
+            </small>
+            @enderror
+        </div>
 
-            <div class="col-3 mb-3">
-                <label for="password" class="form-label">Nama</label>
-            </div>
-            <div class="col-9">
-                <input wire:model="password" type="password" class="form-control" placeholder="masukkan password">
-            </div>
+        <div class="row">
+            <label for="password" class="form-label">Password</label>
+            <input wire:model="password" type="password" autocomplete="new-password"
+                class="form-control @error('password') is-invalid @enderror"
+                placeholder="Masukkan Password">
             @error('password')
             <small class="text-danger">
                 {{ $message }}
             </small>
             @enderror
-
         </div>
+
+        <div class="row">
+            <label for="password_confirmation" class="form-label">Password Konfirmasi</label>
+            <input wire:model="password_confirmation" type="password" autocomplete="new-password"
+                class="form-control @error('password_confirmation') is-invalid @enderror"
+                placeholder="Masukkan Password Konfirmasi">
+            @error('password_confirmation')
+            <small class="text-danger">
+                {{ $message }}
+            </small>
+            @enderror
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
@@ -76,4 +90,4 @@
     </div>
   </div>
 </div>
-{{-- 18:18 errror --}}
+{{-- 24.40 --}}

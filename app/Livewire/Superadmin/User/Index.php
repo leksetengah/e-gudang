@@ -15,7 +15,7 @@ class Index extends Component
     //u/ paginate
     public $paginate='10';
     public $search='';
-    public $nama;
+    public $nama, $email, $role, $password, $password_confirmation;
     public function render()
     {
         $data = array(
@@ -33,15 +33,30 @@ class Index extends Component
         $this->resetValidation();
         $this->reset([
             'nama',
+            'email',
+            'role',
+            'password',
+            'password_confirmation',
         ]);
     }
 
     public function store(){
         $this->validate([
-            'nama' => 'required'
+            'nama'                  => 'required',
+            'email'                 => 'required|email',
+            'role'                  => 'required',
+            'password'              => 'required|min:8|confirmed',
+            'password_confirmation' => 'required',
         ],
     [
-        'nama.required' => 'Nama tidak boleh kosong!'
+        'nama.required'                  => 'Nama tidak boleh kosong!',
+        'email.required'                 => 'email tidak boleh kosong!',
+        'email.email'                    => 'email invalid!',
+        'role.required'                  => 'role tidak boleh kosong!',
+        'password.required'              => 'password tidak boleh kosong!',
+        'password.min'                   => 'password minimal 8 karakter!',
+        'password.confirmed'             => 'password konfirmasi tidak sama!',
+        'password_confirmation.required' => 'password konfirmasi tidak boleh kosong!',
     ]);
     }
 }
