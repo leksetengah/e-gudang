@@ -16,7 +16,7 @@ class Index extends Component
     //u/ paginate
     public $paginate='10';
     public $search='';
-    public $nama, $email, $role, $password, $password_confirmation;
+    public $nama, $email, $role, $password, $password_confirmation, $user_id;
     public function render()
     {
         $data = array(
@@ -70,5 +70,70 @@ class Index extends Component
     $user->save();
 
     $this->dispatch('closeCreateModal');
+    }
+
+    public function edit($id) {
+        // edit({{ $item->id }}) yg telah dipanggil di resources\views\livewire\superadmin\user\index.blade.php
+        $this-> resetValidation();
+
+        $user = User::findOrFail($id);
+        $this->nama                     = $user->name;
+        // $this->nama dari wire:model="nama" = $user->name dari database kolom name
+        $this->email                    = $user->email;
+        $this->role                     = $user->role;
+        $this->password                 = '';
+        $this->password_confirmation    = '';
+        $this->user_id                  = $user->id;
+        // user_id dari wire:click="update({{ $user_id }})" resources\views\livewire\superadmin\user\edit.blade.php
+    }
+
+    public function update($id) {
+        $user = User::findOrFail($id);
+
+        $this->validate([
+            'nama'                  => 'required',
+            'email'                 => 'required|email|unique:users,email,'.$id,
+            // users = nama table, email adalah kolom nya
+            'role'                  => 'required',
+            'password'              => 'nullable|min:8|confirmed',
+        ],
+        [
+            'nama.required'                  => 'Nama tidak boleh kosong!',
+            'email.required'                 => 'email tidak boleh kosong!',
+            'email.email'                    => 'email invalid!',
+            'email.unique'                   => 'email sudah terdaftar!',
+            'role.required'                  => 'role tidak boleh kosong!',
+            'password.min'                   => 'password minimal 8 karakter!',
+            'password.confirmed'             => 'password konfirmasi tidak sama!',
+        ]);
+
+        $user->name = $this->nama;
+        // $user->name(name = field di database) = $this->nama (nama = wire:model="nama");
+        $user->name = $this->nama;
+        $user->email = $this->email;
+        $user->role = $this->role;
+
+        if(filled($this->password)) {
+        $user->password = Hash::make($this->password);
+        }
+
+        $user->save();
+
+        $this->dispatch('closeEditModal');
+    }
+
+    public function confirm($id) {
+        $user = User::findOrFail($id);
+        $this->nama  = $user->name;
+        $this->email  = $user->email;
+        $this->role  = $user->role;
+        $this->user_id = $user->id;
+        // $this->user_id = $user->id; mengirim user_id ke wire:click="destroy({{ $user_id }})"
+    }
+
+    public function destroy($id) {
+        $user = User::findOrFail($id);
+        $user->delete();
+        $this->dispatch('closeDeleteModal');
     }
 }

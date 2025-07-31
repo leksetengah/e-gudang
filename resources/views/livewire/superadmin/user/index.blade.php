@@ -89,10 +89,10 @@
                                         </td>
                                     @endif
                                     <td>
-                                        <button class="btn btn-sm btn-warning">
+                                        <button wire:click="edit({{ $item->id }})" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModalUser">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-danger">
+                                        <button wire:click="confirm({{ $item->id }})" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModalUser">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -126,6 +126,41 @@
                 Swal.fire({
                 title: "Berhasil!",
                 text: "User berhasil ditambahkan!",
+                icon: "success"
+                });
+            });
+        </script>
+    @endscript
+
+    {{--  Edit Modal --}}
+    @include('livewire.superadmin.user.edit')
+
+        {{--  Close Edit Modal --}}
+    @script
+        <script>
+            $wire.on('closeEditModal', () => {
+                $('#editModalUser').modal('hide');
+                // createModalUser = modal id
+                Swal.fire({
+                title: "Berhasil!",
+                text: "Data berhasil diubah!",
+                icon: "success"
+                });
+            });
+        </script>
+    @endscript
+
+        {{--  Delete Modal --}}
+    @include('livewire.superadmin.user.delete')
+
+    {{--  Close Delete Modal --}}
+    @script
+        <script>
+            $wire.on('closeDeleteModal', () => {
+                $('#deleteModalUser').modal('hide');
+                Swal.fire({
+                title: "Berhasil!",
+                text: "User berhasil dihapus!",
                 icon: "success"
                 });
             });
